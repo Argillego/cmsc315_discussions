@@ -26,4 +26,4 @@ Both structures grow linearly, O(n): each pushed or enqueued value adds exactly 
 
 ## How to Run
 
-Run the file with Python 3:
+Run the file unit2_discussion.py
