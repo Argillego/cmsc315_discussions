@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project implements two fundamental linear data structures in Python: a **stack** (LIFO) and a **queue** (FIFO). The program defines a `Stack` class and a `Queue` class, demonstrates each structure's ordering behavior with clear output, and tests edge cases such as removing from or viewing an empty structure.
+This project implements two fundamental linear data structures in Python: a **stack** (LIFO) and a **queue** (FIFO). The program defines a `Stack` class and a `Queue` class, demonstrates each structure's ordering behavior with clearly labeled output, tests edge cases on empty structures, and ends with a real-world scenario comparing a coffee shop line (queue) with a text editor's undo history (stack).
 
 ## Implementation Summary
 
@@ -16,14 +16,26 @@ This project implements two fundamental linear data structures in Python: a **st
 
 - **Edge cases:** I tested removing and viewing from empty structures — both returned a friendly message instead of raising an `IndexError`, because `pop()`, `peek()`, `dequeue()`, and `front()` all check `is_empty()` first. I also created single-item stack and queue instances, removed the only item, and verified both structures reported empty afterward.
 
-## Why LIFO and Why FIFO
+- **Real-world scenario:** I simulated a coffee shop line as a queue — Dana, Marcus, Priya, and Elena join in order, and Dana (the first to arrive) is served first, demonstrating FIFO fairness. I also simulated a text editor's undo history as a stack — the user types, deletes, and pastes, and pressing Ctrl+Z undoes the paste (the most recent action) first, demonstrating LIFO recency.
 
-A stack uses LIFO because its use cases naturally reverse order: an undo history replays the most recent change first, and a browser's back button returns to the most recently visited page. A queue uses FIFO because its use cases are fair, first-come-first-served systems: a print queue serves documents in submission order, and a customer service line serves whoever has waited longest.
+## Why a Stack Uses LIFO and a Queue Uses FIFO
+
+A stack uses LIFO because its most natural applications reverse order: an undo feature in a text editor must undo the *most recent* change first, and a browser's back button must return to the *most recently* visited page. The newest item is always the one needed next, so removal happens at the same end where addition happens.
+
+A queue uses FIFO because its applications are fairness systems: a print queue processes documents in the order they were submitted, and a customer service line serves whoever has waited longest. The oldest item must leave first, so removal happens at the opposite end from addition.
 
 ## Memory Usage
 
-Both structures grow linearly, O(n): each pushed or enqueued value adds exactly one slot to memory, and removing a value frees that slot. Neither structure stores extra copies or overhead per item, so memory usage is directly proportional to the number of values currently held.
+Both structures grow linearly — O(n) memory. Each `push()` or `enqueue()` adds exactly one slot, each removal frees one slot, and neither structure stores extra per-item overhead. Memory usage is directly proportional to the number of values currently held, unlike fixed-size array implementations that may reserve unused capacity.
 
 ## How to Run
 
-Run the file unit2_discussion.py
+Run the file with Python 3:
+
+    python unit2_discussion.py
+
+The output walks through the stack demo (LIFO), the queue demo (FIFO), the edge-case tests, and the real-world scenario.
+
+## Reflection
+
+Completing this assignment taught me how ordering rules define data structures: the same add/remove operations produce completely different behavior depending on which end you remove from. I learned why implementation choice matters — I used `collections.deque` for the queue because removing from the front of a plain list shifts every element, turning an O(1) operation into O(n). The biggest challenge was designing edge-case handling: my first instinct was to let Python raise an `IndexError` on an empty structure, but a real application should return a clear message instead, so I added `is_empty()` checks before every removal and peek. In real-world terms, stacks and queues differ in recency versus fairness: stacks power undo histories, browser back buttons, and the function call stack, while queues power print spoolers, customer service lines, and task schedulers where first-come, first-served is the requirement. Choosing between them is really choosing whether "next" means the newest item or the oldest one.
