@@ -1,26 +1,45 @@
-## Implementation Summary
+# Unit 3 Discussion: List Operations
 
-I implemented the four list operations in `unit3_lists.py`:
+## Overview
 
-- **insert_at**: I used `list.insert()`, which shifts all elements at or
-  beyond the target index one position right. I documented that insertion
-  at the end is O(1) while beginning/middle insertions are O(n), and I
-  validated the index (0 through len) to safely support appending.
+This project examines fundamental operations on Python list structures, including element insertion, deletion, linear searching, and edge case handling. It demonstrates how underlying array-backed memory structures behave when elements are shifted during updates.
 
-- **delete_at**: I used `list.pop()` with prior index validation. Invalid
-  indices return `None` instead of raising `IndexError`, making the
-  function safe to compose into larger programs. Elements after the
-  removed position shift left to close the gap.
+## Completed Requirements
 
-- **search_value**: I implemented a linear search that scans sequentially
-  from index 0, returning the first matching index or -1. I explained why
-  a Python list requires linear search: it offers positional access only,
-  with no keyed lookup, so value lookup is O(n) worst case.
+### 1. Insertion Operations (`insert_at`)
 
-- **main / tests**: I demonstrated insertion, deletion, and search at the
-  beginning, middle, and end, printing the list before and after each
-  operation so the element-shifting behavior is visible in the output.
+- Tested insertions at the beginning (index `0`), middle, and end of the list.
+- After each insertion, all elements at or beyond the target index shift one position right, and the list grows by one.
+- Documented O(n) time complexity for front/middle insertions due to element shifting vs. O(1) for end insertions, where no elements move.
 
-- **Edge cases**: I demonstrated four — deleting at an out-of-range index,
-  searching an empty list, inserting into an empty list, and deleting from
-  an empty list. All returned safely (None or -1) without exceptions.
+### 2. Deletion Operations (`delete_at`)
+
+- Implemented boundary validation checks (`0 <= index < len(lst)`) to prevent `IndexError` exceptions.
+- Invalid indices return `None` instead of crashing, making the function safe to call in larger programs.
+- Tested deletions across initial, middle, and trailing indices; elements after the removed position shift left to close the gap.
+
+### 3. Search Operations (`search_value`)
+
+- Implemented a sequential linear search algorithm returning the matching index or `-1` if absent.
+- Linear search is required because Python lists provide positional access only — values cannot be "jumped" to without scanning, since the list is neither sorted nor keyed.
+- Documented the O(n) worst-case time complexity required when inspecting unindexed sequences.
+
+### 4. Edge Case Handling
+
+- Handled deletion attempts on empty collections (validation returns `None`, no exception).
+- Validated behavior during out-of-bounds index insertion requests (ignored safely).
+- Demonstrated searching an empty list (returns `-1`) and inserting into an empty list (legal, appends at index 0).
+
+## Discussion Board Reflection
+
+### 1. What concepts or skills did you learn while completing this assignment?
+
+While completing this assignment, I deepened my understanding of how list operations impact memory and runtime efficiency. I learned how Python manages dynamic arrays under the hood — specifically how inserting or deleting items at arbitrary index positions forces subsequent elements to shift in memory. I also practiced writing defensive code by validating index boundaries before mutating lists to prevent runtime `IndexError` exceptions.
+
+### 2. What challenges did you encounter, and how did you overcome them?
+
+One challenge was ensuring robust edge case handling when operating on empty lists or out-of-bounds indices. I overcame this by implementing explicit condition checks (`if index < 0 or index >= len(lst)`) prior to invoking deletion methods, ensuring the application handles invalid input gracefully without crashing.
+
+### 3. How do list operations impact performance in real-world applications?
+
+In real-world applications like media streaming queues or shopping carts, list operation choice directly impacts responsiveness. Frequently inserting or deleting items at the beginning of large array-backed lists incurs significant O(n) shifting overhead, which can degrade performance compared to alternative structures like linked lists or double-ended queues (`collections.deque`).
